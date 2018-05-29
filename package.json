@@ -1,0 +1,20 @@
+{
+  "name": "assets-version-webpack-plugin",
+  "version": "1.0.0",
+  "description": "Generate the version number of the webpack resource into the JSON file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccbabi/assets-version-webpack-plugin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ccbabi/assets-version-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/ccbabi/assets-version-webpack-plugin#readme"
+}
