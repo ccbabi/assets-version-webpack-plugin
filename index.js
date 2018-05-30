@@ -69,7 +69,7 @@ class AssetsVersionWebpackPlugin {
   check (json) {
     const book = {}
     let version
-    Object.values(json).some(value => {
+    return Object.values(json).some(value => {
       version = value[this.option.version]
       if (book[version]) {
         console.warn('\nThere are files with the same hash, and package optimization is recommended.')
