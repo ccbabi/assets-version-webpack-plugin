@@ -8,6 +8,7 @@ class AssetsVersionWebpackPlugin {
       includeDate: true,
       includeHash: true,
       callback: null,
+      version: 'v',
       ...option
     }
 
@@ -18,10 +19,9 @@ class AssetsVersionWebpackPlugin {
     const option = this.option
 
     compiler.plugin('emit', (compilation, callback) => {
-      console.log(require('util').inspect(compilation, true, true, true))
       const assets = Object.keys(compilation.assets)
       const version = {}
-      let file
+      let json, file
 
       if (option.includeDate) {
         version.date = Date.now()
@@ -31,16 +31,18 @@ class AssetsVersionWebpackPlugin {
         version.hash = compilation.fullHash
       }
 
-      version.version = this.toJson(assets)
+      json = this.toJson(assets)
+      version.version = json
 
       if (option.callback && typeof callback === 'function') {
-        setTimeout(() => option.callback(version), 0)
+        option.callback(version)
       } else {
         file = JSON.stringify(version, null, 2) + '\n'
         compilation.assets[option.filename] = {
           source: () => file,
           size: () => file.length
         }
+        this.check(json)
       }
 
       callback()
@@ -62,6 +64,19 @@ class AssetsVersionWebpackPlugin {
 
       return previousValue
     }, {})
+  }
+
+  check (json) {
+    const book = {}
+    let version
+    Object.values(json).some(value => {
+      version = value[this.option.version]
+      if (book[version]) {
+        console.warn('\nThere are files with the same hash, and package optimization is recommended.')
+        return true
+      }
+      book[version] = 1
+    })
   }
 }
 
